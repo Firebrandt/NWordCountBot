@@ -1,21 +1,10 @@
 import discord
 import n_bot_calculator_core
 
-#This file handles direct bot-discord client interactions. No background calculations or anything, though. Mostly reactive functions.
+#This file handles direct bot-discord user interactions. No background calculations or anything, though. Mostly reactive functions.
 
 
 discordClient = discord.Client()
-
-async def message_search(requestGuildTxtChannels, requestUserList):
-    #put the messages from every channel into a gigantic list (will probably take a while T_T)
-    messageList = []
-
-    for text_channel in requestGuildTxtChannels:
-       channelMessageList = await text_channel.history().flatten()
-       messageList += channelMessageList
-       # after grabbing messages, we send this to the background since we really don't need the client at this point.
-
-    return await n_bot_calculator_core.n_countCalculation(messageList, requestUserList)
 
 @discordClient.event
 async def on_ready():
@@ -40,8 +29,7 @@ async def on_message(message):
         N_countList = message.mentions
         #Pass the list of channels, and list of names to the message history parser.
         await message.channel.send('Now calculating NWord Counts (this could seriously take a while...)')
-        N_countResults = await message_search(requestGuildTxtChannels, N_countList)
-
+        N_countResults = await n_bot_calculator_core.message_search(requestGuildTxtChannels, N_countList)
         await message.channel.send('DEBUG: List of members')
         for N_countListMember in N_countList:
             await message.channel.send(N_countListMember.name + ' ID: ' + str(N_countListMember.id) + ' (number here)')
