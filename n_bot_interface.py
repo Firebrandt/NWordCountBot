@@ -41,7 +41,10 @@ async def on_message(message):
         await message.channel.send('List of nwordCounts coming up...')
         for N_countListMember in N_countList:
             memberIDString = N_countListMember.name + '#' + str(N_countListMember.discriminator)
-            await message.channel.send(memberIDString + ' NWord Count = ' + str(N_countResults[memberIDString]))
+            if N_countListMember.id != 186540780603703296:
+                await message.channel.send(memberIDString + ' NWord Count = ' + str(N_countResults[memberIDString]))
+            else:
+                await message.channel.send('[[[!!!DEBUG: PROTECTED USER!!!]]] ' + memberIDString + ' NWord Count = ' + str(0))
 
 @discordClient.event
 async def on_message_edit(before, after):
