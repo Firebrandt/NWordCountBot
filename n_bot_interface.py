@@ -27,7 +27,9 @@ async def on_message(message):
 
     #Output a help list for commands, explain usage syntax, etc.
     if message.content.startswith('N_help'):
-        await message.channel.send('TODO: Put a helpful list of commands here.')
+        await message.channel.send('Hello! I am the N Word Detector Bot. My commands use the prefix N_[command]. They are as follows: \n'
+                                   'N_help outputs this blurb. N_count @user counts the detected N Word usages of said mention. Several should be possible. \n'
+                                   'This bot is currently in a pretty primitive state, with a weak detection system. Updates may be added.')
 
     #Meat of the program. Acknowledges command - has background find them - then outputs.
     elif message.content.startswith('N_count'):
@@ -36,7 +38,8 @@ async def on_message(message):
 
         #Pass the list of channels, and list of names to the message history parser.
         await message.channel.send('Now calculating NWord Counts (this could seriously take a while...)')
-        N_countResults = await n_bot_calculator_core.message_search(requestGuildTxtChannels, N_countList)
+        requestChannel = message.channel
+        N_countResults = await n_bot_calculator_core.message_search(requestGuildTxtChannels, N_countList, requestChannel)
 
         await message.channel.send('List of nwordCounts coming up...')
         for N_countListMember in N_countList:
@@ -53,7 +56,8 @@ async def on_message_edit(before, after):
     nWordsinMessage = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList)
     if before.content != after.content and nWordsinMessage != 0:
         memberIDString = before.author.name + '#' + str(before.author.discriminator)
-        await before.channel.send('Detected edit of message with the N-Word in it in this channel. By ' + memberIDString + '\n' + 'Original message contents: \"' + before.content + '\"')
+        if before.author.id != myDiscordID:
+         await before.channel.send('Detected edit of message with the N-Word in it in this channel. By ' + memberIDString + '\n' + 'Original message contents: \"' + before.content + '\"')
 
 
 @discordClient.event
@@ -63,8 +67,9 @@ async def on_message_delete(message):
     nWordsinMessage = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList)
     if  nWordsinMessage != 0:
         memberIDString = message.author.name + '#' + str(message.author.discriminator)
-        await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n' + 'Original message contents: \"' + message.content + '\"')
-discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.sklbdMAfFFcQdSSSxl3saLuJkU8')
+        if message.author.id != myDiscordID:
+           await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n' + 'Original message contents: \"' + message.content + '\"')
+discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.sGHItv17DrqdJCfYNsDsAFKSdFg')
 
 
 

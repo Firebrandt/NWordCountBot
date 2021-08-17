@@ -1,26 +1,28 @@
 import discord
 
-nWordTypes = ['NIGGA', 'NIGA', 'NIGGE', 'NIGGR', 'NIGR', 'NIGGUR', 'NEGRO', 'NGR', 'NIGGER']
+nWordTypes = ['NIGGA', 'NIGGE', 'NIGGR', 'NIGR', 'NIGGUR', 'NEGRO', 'NIGGER', 'NIGAS'] #TODO: Make these only happen with spaces in front of the N in original message.
 discordClient = discord.Client()
 
 
 # This code file does most of the background calculations for the bot's interface segment,
-# and then hands it the result.
+# and then hands it the result. It does do a handful of status message outputs.
 
 
-async def message_search(requestGuildTxtChannels, requestUserList):
+async def message_search(requestGuildTxtChannels, requestUserList, requestChannel):
     # put the messages from every channel into a gigantic list (will probably take a while T_T)
     messageList = []
 
     for text_channel in requestGuildTxtChannels:
-        channelMessageList = await text_channel.history().flatten()
+        #go thru last 200k messages (more will kill the bot)
+        channelMessageList = await text_channel.history(limit=100000).flatten()
+        print(len(channelMessageList))
         messageList += channelMessageList
         # after grabbing messages, we send this to the calculator function
+        requestChannel.send('Grabbed messages. Processing now.')
+    return await n_countCalculation(messageList, requestUserList, requestChannel)
 
-    return await n_countCalculation(messageList, requestUserList)
 
-
-async def n_countCalculation(messageList, requestMemberList):
+async def n_countCalculation(messageList, requestMemberList, requestChannel):
     # set up member counts return thing.
     memberCounts = {}
     for member in requestMemberList:
@@ -38,6 +40,8 @@ async def n_countCalculation(messageList, requestMemberList):
             for nWord in nWordTypes:
                 if nWord in messageTextFinal:
                     memberCounts[message.author.name + '#' + message.author.discriminator] += messageTextFinal.count(nWord)
+                    await requestChannel.send('original message content: ' + messageText)
+                    #await  requestChannel.send('what the bot sees: ' + messageTextFinal)
 
     return memberCounts
 
@@ -46,7 +50,6 @@ async def n_countCalculation(messageList, requestMemberList):
 # The following functions will perform a processing step on a string, then return the modified version. Chain them together.
 async def remove_replacement(message):
     messageText = message
-
     # Deal with N-Replacements.
     nSubList = ['/\\\\/', '|\\\\|', 'I\\\\I', '!\\\\!', 'l\\\\l', 'n', '🇳']
     for nSub in nSubList:
@@ -58,9 +61,12 @@ async def remove_replacement(message):
         messageText = messageText.replace(iSub, 'I')
 
     # Deal with G-Replacements.
-    gSubList = ['B', 'C', 'C;', 'g', '🤙', '☪', '↪', '🇬', 'b', '🅱️']
+    gSubList = ['BB', 'C;', 'g', '🤙', '☪', '↪', '🇬', 'bb', '🅱️']
     for gSub in gSubList:
-        messageText = messageText.replace(gSub, 'G')
+        if len(gSub) == 1:
+            messageText = messageText.replace(gSub, 'G')
+        elif len(gSub) == 2:
+            messageText = messageText.replace(gSub, 'GG')
 
     # Deal with E-Replacements.
     eSubList = ['e', 'U', '3', '🇪']
@@ -77,6 +83,7 @@ async def remove_replacement(message):
     for aSub in aSubList:
         messageText = messageText.replace(aSub, 'A')
 
+    #print('replacements cut: ' + messageText)
     return messageText
 
 
@@ -98,6 +105,7 @@ async def remove_duplicates(message):
     while ('RR' in messageText):
         messageText = messageText.replace('RR', 'R')
 
+    #print('duplicates cut: ' + messageText)
     return messageText
 
 
@@ -106,9 +114,10 @@ async def remove_special_characters(message):
     messageText = message
     for thisChar in messageText:
         if not (ascii(thisChar) >= ascii(0) and ascii(thisChar) <= ascii(9) or ascii(thisChar) >= ascii('A') and ascii(
-                thisChar) <= ascii('Z')):
+                thisChar) <= ascii('Z') or ascii(thisChar) >= ascii('a') and ascii(thisChar) <= ascii('z')):
             messageText = messageText.replace(thisChar, '')
 
+    #print('specials cut: ' + messageText)
     return messageText
 
     # TODO: Maybe optimize list - do one, store pairs for replacement ID? Could be faster than having 1 mil. Less organized tho.
