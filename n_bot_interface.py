@@ -15,12 +15,13 @@ async def on_ready():
 async def on_message(message):
     requestGuild = message.guild
     requestGuildTxtChannels = requestGuild.text_channels
-    #Interactive only. Might kill this later.
-    if message.content.startswith('N_greet'):
-        await message.channel.send('Hello!')
+
+    #The bot will ignore its own messages (for tripping commands).
+    if message.author == discordClient.user:
+        return
 
     #Output a help list for commands, explain usage syntax, etc.
-    elif message.content.startswith('N_help'):
+    if message.content.startswith('N_help'):
         await message.channel.send('TODO: Put a helpful list of commands here.')
 
     #Meat of the program. Acknowledges command - has background find them - then outputs.
@@ -30,12 +31,12 @@ async def on_message(message):
         #Pass the list of channels, and list of names to the message history parser.
         await message.channel.send('Now calculating NWord Counts (this could seriously take a while...)')
         N_countResults = await n_bot_calculator_core.message_search(requestGuildTxtChannels, N_countList)
-        await message.channel.send('DEBUG: List of members')
-        for N_countListMember in N_countList:
-            await message.channel.send(N_countListMember.name + ' ID: ' + str(N_countListMember.id) + ' (number here)')
-        await message.channel.send('DEBUG: Channels searched')
-        for text_channel in requestGuildTxtChannels:
-            await message.channel.send(text_channel.name)
+        # await message.channel.send('DEBUG: List of members')
+        # for N_countListMember in N_countList:
+        #     await message.channel.send(N_countListMember.name + ' ID: ' + str(N_countListMember.id) + ' (number here)')
+        # await message.channel.send('DEBUG: Channels searched')
+        # for text_channel in requestGuildTxtChannels:
+        #     await message.channel.send(text_channel.name)
         await message.channel.send('List of nwordCounts coming up...')
         for N_countListMember in N_countList:
             memberIDString = N_countListMember.name + '#' + str(N_countListMember.discriminator)
