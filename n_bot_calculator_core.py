@@ -37,8 +37,7 @@ async def n_countCalculation(messageList, requestMemberList):
         if message.author in requestMemberList:
             for nWord in nWordTypes:
                 if nWord in messageTextFinal:
-                    memberCounts[message.author.name + '#' + message.author.discriminator] += 1
-                    #TODO: wait a second it might not count separate N-Words. Urgh.
+                    memberCounts[message.author.name + '#' + message.author.discriminator] += messageTextFinal.count(nWord)
 
     return memberCounts
 
