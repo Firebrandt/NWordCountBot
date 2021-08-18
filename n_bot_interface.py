@@ -53,7 +53,7 @@ async def on_message(message):
     # Check if any message contains the N-word. If it does, react with a camera emoji.
     messageList = [message]
     requestMemberList = [message.author]
-    finishedRequestMemberList = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList, message.channel)
+    finishedRequestMemberList = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList, message.channel, "verify if contains N word")
     memberIDString = message.author.name + '#' + str(message.author.discriminator)
     nWordsinMessage = finishedRequestMemberList[memberIDString]
     if nWordsinMessage != 0:
@@ -63,7 +63,7 @@ async def on_message(message):
 async def on_message_edit(before, after):
     messageList = [before]
     requestMemberList = [before.author]
-    finishedRequestMemberList = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList, before.channel)
+    finishedRequestMemberList = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList, before.channel, "verify if contains N word")
     memberIDString = before.author.name + '#' + str(before.author.discriminator)
     nWordsinMessage = finishedRequestMemberList[memberIDString]
     if before.content != after.content and nWordsinMessage != 0:
@@ -75,13 +75,13 @@ async def on_message_edit(before, after):
 async def on_message_delete(message):
     messageList = [message]
     requestMemberList = [message.author]
-    finishedRequestMemberList = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList, message.channel)
+    finishedRequestMemberList = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList, message.channel, "verify if contains N word")
     memberIDString = message.author.name + '#' + str(message.author.discriminator)
     nWordsinMessage = finishedRequestMemberList[memberIDString]
     if  nWordsinMessage != 0:
         if message.author.id != myDiscordID:
            await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n'  + 'original message content: \"' + message.content + '\"')
-discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.x3FhmSkNRYh9-cwvpqYe8-RNLzI')
+discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.4fWwx1OrXwGk8gDB_FSBGUg8F7k')
 
 
 
