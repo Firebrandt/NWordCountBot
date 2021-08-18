@@ -14,7 +14,7 @@ async def message_search(requestGuildTxtChannels, requestUserList, requestChanne
     messageList = []
 
     for text_channel in requestGuildTxtChannels:
-        #go thru last 200k messages (more will kill the bot)
+        #Rate limit = 50 per second
         channelMessageList = await text_channel.history(limit=100000).flatten()
         print(len(channelMessageList))
         messageList += channelMessageList
