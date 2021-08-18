@@ -7,5 +7,4 @@ That will spawn the bot with the permissions it uses, more or less.
 The bot uses the prefix N_ to recognize commands given to it via chat.
 N_help provides a reference for the commands.
 
-I don't actually have a server for this bot so it may not be online all the time, be advised. Also, the token in the repo is always gonna be outdated. To run the bot you'd have to make your own application and get your own token. A guide for that exists on the dscord.py website.
-
+Hosted on heroku free edition. May have some downtime or sleep etc. because of that.
