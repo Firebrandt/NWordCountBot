@@ -81,7 +81,7 @@ async def on_message_delete(message):
     if  nWordsinMessage != 0:
         if message.author.id != myDiscordID:
            await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n'  + 'original message content: \"' + message.content + '\"')
-discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.jVP8WzX3JVBqZN_jr2HgznkwsnM')
+discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.PcaIqbsFTfyYSpbfWy4okCq1LsI')
 
 
 
