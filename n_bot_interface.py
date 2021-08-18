@@ -68,7 +68,7 @@ async def on_message_edit(before, after):
     nWordsinMessage = finishedRequestMemberList[memberIDString]
     if before.content != after.content and nWordsinMessage != 0:
         if before.author.id != myDiscordID:
-         await before.channel.send('Detected edit of message with the N-Word in it in this channel. Message by ' + memberIDString + '\n')
+         await before.channel.send('Detected edit of message with the N-Word in it in this channel. Message by ' + memberIDString + '\n' + 'original message content: \"' + before.content + '\"')
 
 
 @discordClient.event
@@ -80,8 +80,8 @@ async def on_message_delete(message):
     nWordsinMessage = finishedRequestMemberList[memberIDString]
     if  nWordsinMessage != 0:
         if message.author.id != myDiscordID:
-           await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n')
-discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.SnToeg3jj_lWctmyhVOhekFQowE')
+           await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n'  + 'original message content: \"' + message.content + '\"')
+discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.x3FhmSkNRYh9-cwvpqYe8-RNLzI')
 
 
 
