@@ -93,5 +93,3 @@ discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.PcaIqbsFTfyYSpbfWy4okCq1LsI')
 # When python encounters an 'await' call, within a function, it will stop the parent function execution there,
 # and do other work until it's ready to continue working on that function (once the await-called thing is done,
 # probably). So we can do some parallel work in an easy way.
-
-#TODO: Make the original message output include author. Then it's done.

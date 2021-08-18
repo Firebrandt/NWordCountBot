@@ -1,6 +1,6 @@
 import discord
 
-nWordTypes = ['NIGGA', 'NIGGE', 'NIGGR', 'NIGR', 'NIGGUR', 'NEGRO', 'NIGGER', 'NIGAS', ' NIGA', ' NGR']
+nWordTypes = ['NIGGA', 'NIGGE', 'NIGGR', 'NIGR', 'NIGGUR', 'NEGRO', 'NIGAS', ' NIGA', ' NGR']
 discordClient = discord.Client()
 myDiscordID = 186540780603703296
 
