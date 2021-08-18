@@ -70,7 +70,7 @@ async def on_message_delete(message):
         memberIDString = message.author.name + '#' + str(message.author.discriminator)
         if message.author.id != myDiscordID:
            await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n' + 'Original message contents: \"' + message.content + '\"')
-discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.HRzkCCtl0ZR4BrZuyYHjDaenKT8')
+discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.QwALVpRn03_cNH_cB6O3ur45kT4')
 
 
 
@@ -82,3 +82,5 @@ discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.HRzkCCtl0ZR4BrZuyYHjDaenKT8')
 # When python encounters an 'await' call, within a function, it will stop the parent function execution there,
 # and do other work until it's ready to continue working on that function (once the await-called thing is done,
 # probably). So we can do some parallel work in an easy way.
+
+#TODO: Make the original message output include author. Then it's done.
