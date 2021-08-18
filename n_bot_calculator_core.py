@@ -42,7 +42,7 @@ async def n_countCalculation(messageList, requestMemberList, requestChannel):
                 if nWord in messageTextFinal:
                     memberCounts[message.author.name + '#' + message.author.discriminator] += messageTextFinal.count(nWord)
                     if message.author.id != myDiscordID:
-                        await requestChannel.send('original message content: ' + messageText + 'by ' + message.author.name + '#' + member.discriminator)
+                        await requestChannel.send('original message content: ' + messageText + ' by ' + message.author.name + '#' + member.discriminator)
                     #await  requestChannel.send('what the bot sees: ' + messageTextFinal)
 
     return memberCounts
