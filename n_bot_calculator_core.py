@@ -1,7 +1,8 @@
 import discord
 
-nWordTypes = ['NIGGA', 'NIGGE', 'NIGGR', 'NIGR', 'NIGGUR', 'NEGRO', 'NIGGER', 'NIGAS'] #TODO: Make these only happen with spaces in front of the N in original message.
+nWordTypes = ['NIGGA', 'NIGGE', 'NIGGR', 'NIGR', 'NIGGUR', 'NEGRO', 'NIGGER', 'NIGAS', ' NIGA', ' NGR']
 discordClient = discord.Client()
+myDiscordID = 186540780603703296
 
 
 # This code file does most of the background calculations for the bot's interface segment,
@@ -18,7 +19,7 @@ async def message_search(requestGuildTxtChannels, requestUserList, requestChanne
         print(len(channelMessageList))
         messageList += channelMessageList
         # after grabbing messages, we send this to the calculator function
-        requestChannel.send('Grabbed messages. Processing now.')
+    await requestChannel.send('Grabbed messages. Processing now.')
     return await n_countCalculation(messageList, requestUserList, requestChannel)
 
 
@@ -40,7 +41,8 @@ async def n_countCalculation(messageList, requestMemberList, requestChannel):
             for nWord in nWordTypes:
                 if nWord in messageTextFinal:
                     memberCounts[message.author.name + '#' + message.author.discriminator] += messageTextFinal.count(nWord)
-                    await requestChannel.send('original message content: ' + messageText)
+                    if message.author.id != myDiscordID:
+                        await requestChannel.send('original message content: ' + messageText)
                     #await  requestChannel.send('what the bot sees: ' + messageTextFinal)
 
     return memberCounts
@@ -109,14 +111,20 @@ async def remove_duplicates(message):
     return messageText
 
 
-# Removes special characters (and spaces and newlines) from the string.
+# Removes special characters (and spaces and newlines) from the string. Oh, and add a space at string start (for proper detection there)
 async def remove_special_characters(message):
     messageText = message
-    for thisChar in messageText:
-        if not (ascii(thisChar) >= ascii(0) and ascii(thisChar) <= ascii(9) or ascii(thisChar) >= ascii('A') and ascii(
-                thisChar) <= ascii('Z') or ascii(thisChar) >= ascii('a') and ascii(thisChar) <= ascii('z')):
-            messageText = messageText.replace(thisChar, '')
-
+    for index in range(0, len(messageText)-1):
+        #This operation reduces string length, hence we need an extra check to avoid index error here.
+        if index <= len(messageText)-1:
+            thisChar = messageText[index]
+            if not (ascii(thisChar) >= ascii(0) and ascii(thisChar) <= ascii(9) or ascii(thisChar) >= ascii('A') and ascii(
+                    thisChar) <= ascii('Z') or ascii(thisChar) >= ascii('a') and ascii(thisChar) <= ascii('z')):
+                #Ignore " N" here because it helps us search for unattached N-word candidates (useful for less certain spellings)
+                if not (index+1 <= len(messageText)-1 and ascii(thisChar) == ascii(' ') and ascii(messageText[index+1] == ascii('N'))):
+                    #print("substring:" + messageText[index:index+1])
+                    messageText = messageText.replace(thisChar, '')
+    messageText = messageText.rjust(20)
     #print('specials cut: ' + messageText)
     return messageText
 

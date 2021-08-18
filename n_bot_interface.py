@@ -48,28 +48,29 @@ async def on_message(message):
                 await message.channel.send(memberIDString + ' NWord Count = ' + str(N_countResults[memberIDString]))
             else:
                 await message.channel.send('[[[!!!DEBUG: PROTECTED USER!!!]]] ' + memberIDString + ' NWord Count = ' + str(0))
+                print('N Word Count = ' + str(N_countResults[memberIDString]))
 
 @discordClient.event
 async def on_message_edit(before, after):
     messageList = [before]
     requestMemberList = [before.author]
-    nWordsinMessage = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList)
+    nWordsinMessage = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList, before.channel)
     if before.content != after.content and nWordsinMessage != 0:
         memberIDString = before.author.name + '#' + str(before.author.discriminator)
         if before.author.id != myDiscordID:
-         await before.channel.send('Detected edit of message with the N-Word in it in this channel. By ' + memberIDString + '\n' + 'Original message contents: \"' + before.content + '\"')
+         await before.channel.send('Detected edit of message with the N-Word in it in this channel. Message by ' + memberIDString + '\n' + 'Original message contents: \"' + before.content + '\"')
 
 
 @discordClient.event
 async def on_message_delete(message):
     messageList = [message]
     requestMemberList = [message.author]
-    nWordsinMessage = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList)
+    nWordsinMessage = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList, message.channel)
     if  nWordsinMessage != 0:
         memberIDString = message.author.name + '#' + str(message.author.discriminator)
         if message.author.id != myDiscordID:
            await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n' + 'Original message contents: \"' + message.content + '\"')
-discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.sGHItv17DrqdJCfYNsDsAFKSdFg')
+discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.HRzkCCtl0ZR4BrZuyYHjDaenKT8')
 
 
 
