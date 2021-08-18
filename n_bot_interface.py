@@ -50,6 +50,15 @@ async def on_message(message):
                 await message.channel.send('[[[!!!DEBUG: PROTECTED USER!!!]]] ' + memberIDString + ' NWord Count = ' + str(0))
                 print('N Word Count = ' + str(N_countResults[memberIDString]))
 
+    # Check if any message contains the N-word. If it does, react with a camera emoji.
+    messageList = [message]
+    requestMemberList = [message.author]
+    finishedRequestMemberList = await n_bot_calculator_core.n_countCalculation(messageList, requestMemberList, message.channel)
+    memberIDString = message.author.name + '#' + str(message.author.discriminator)
+    nWordsinMessage = finishedRequestMemberList[memberIDString]
+    if nWordsinMessage != 0:
+        await message.add_reaction('📸')
+
 @discordClient.event
 async def on_message_edit(before, after):
     messageList = [before]
@@ -72,7 +81,7 @@ async def on_message_delete(message):
     if  nWordsinMessage != 0:
         if message.author.id != myDiscordID:
            await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n')
-discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.yCOF2hMBJD26MWkoc7Mwb6JT6dM')
+discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.SnToeg3jj_lWctmyhVOhekFQowE')
 
 
 
