@@ -1,0 +1,1 @@
+worker: python n_bot_interface.py
