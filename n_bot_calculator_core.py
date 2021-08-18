@@ -22,7 +22,7 @@ async def message_search(requestGuildTxtChannels, requestUserList, requestChanne
     await requestChannel.send('Grabbed messages. Processing now.')
     return await n_countCalculation(messageList, requestUserList, requestChannel, "count N words")
 
-
+#Count the number of N-Words in a message. If being called as part of N_count (and not just to count in a single message), for functions like N_edit, it will mark found messages.
 async def n_countCalculation(messageList, requestMemberList, requestChannel, useFlag):
     # set up member counts return thing.
     memberCounts = {}
@@ -40,10 +40,11 @@ async def n_countCalculation(messageList, requestMemberList, requestChannel, use
         if message.author in requestMemberList:
             for nWord in nWordTypes:
                 if nWord in messageTextFinal:
-                    memberCounts[message.author.name + '#' + message.author.discriminator] += messageTextFinal.count(nWord)
+                    memberIDString = message.author.name + '#' + str(message.author.discriminator)
+                    memberCounts[memberIDString] += messageTextFinal.count(nWord)
                     if message.author.id != myDiscordID and useFlag == "count N words":
                         await message.reply('📸')
-                        await message.channel.send('original message text (failsafe output): ' + message.content)
+                        await message.channel.send('Original message (failsafe output): "' + message.content + '" ' + memberIDString)
                     #await  requestChannel.send('what the bot sees: ' + messageTextFinal)
 
     return memberCounts
