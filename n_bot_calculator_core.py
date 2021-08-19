@@ -1,6 +1,6 @@
 import discord
 
-nWordTypes = ['NIGGA', 'NIGGE', 'NIGGR', 'NIGR', 'NIGGUR', 'NEGRO', 'NIGAS', ' NIGA', ' NGR']
+nWordTypes = ['NIGGA', 'NIGGE', 'NIGGR', 'NIGR', 'NIGGUR', 'NEGRO', 'NIGAS', ' NIGA', ' NGR', ' NIG NOG']
 discordClient = discord.Client()
 myDiscordID = 186540780603703296
 
@@ -126,6 +126,7 @@ async def remove_special_characters(message):
                 if not (index+1 <= len(messageText)-1 and ascii(thisChar) == ascii(' ') and ascii(messageText[index+1] == ascii('N'))):
                     #print("substring:" + messageText[index:index+1])
                     messageText = messageText.replace(thisChar, '')
+
     messageText = messageText.rjust(20)
     #print('specials cut: ' + messageText)
     return messageText
