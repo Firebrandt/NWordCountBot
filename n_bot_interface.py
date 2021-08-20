@@ -7,7 +7,7 @@ import n_bot_calculator_core
 
 discordClient = discord.Client()
 
-discordClient.max_messages = 200000
+discordClient.max_messages = 400000
 myDiscordID = 186540780603703296
 
 @discordClient.event
@@ -58,6 +58,8 @@ async def on_message(message):
     if nWordsinMessage != 0:
         await message.add_reaction('📸')
 
+#NOTE: THESE STRAIGHT UP AREN'T CALLED IF THE MESSAGE IS TOO OLD - message must appear in client's message cache.
+
 @discordClient.event
 async def on_message_edit(before, after):
     messageList = [before]
@@ -66,7 +68,7 @@ async def on_message_edit(before, after):
     memberIDString = before.author.name + '#' + str(before.author.discriminator)
     nWordsinMessage = finishedRequestMemberList[memberIDString]
     if before.content != after.content and nWordsinMessage != 0:
-        if before.author.id != myDiscordID+69:
+        if before.author.id != myDiscordID:
          await before.channel.send('Detected edit of message with the N-Word in it in this channel. Message by ' + memberIDString + '\n' + 'original message content: \"' + before.content + '\"')
 
 
@@ -78,7 +80,7 @@ async def on_message_delete(message):
     memberIDString = message.author.name + '#' + str(message.author.discriminator)
     nWordsinMessage = finishedRequestMemberList[memberIDString]
     if  nWordsinMessage != 0:
-        if message.author.id != myDiscordID+69:
+        if message.author.id != myDiscordID:
            await message.channel.send('Detected deletion of message with the N-Word in it in this channel. By ' + memberIDString + '\n'  + 'original message content: \"' + message.content + '\"')
 discordClient.run('ODc1Nzg0MTkwMTgyOTczNTQx.YRajlg.PcaIqbsFTfyYSpbfWy4okCq1LsI')
 

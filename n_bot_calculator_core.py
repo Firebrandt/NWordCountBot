@@ -42,7 +42,7 @@ async def n_countCalculation(messageList, requestMemberList, requestChannel, use
                 if nWord in messageTextFinal:
                     memberIDString = message.author.name + '#' + str(message.author.discriminator)
                     memberCounts[memberIDString] += messageTextFinal.count(nWord)
-                    if message.author.id != myDiscordID+69 and useFlag == "count N words":
+                    if message.author.id != myDiscordID and useFlag == "count N words":
                         await message.reply('📸')
                         await message.channel.send('Original message (failsafe output): "' + message.content + '" ' + memberIDString)
                     #await  requestChannel.send('what the bot sees: ' + messageTextFinal)
