@@ -7,8 +7,7 @@ import n_bot_calculator_core
 
 discordClient = discord.Client()
 
-INT32_MAX = 2^32-1
-discordClient.max_messages = INT32_MAX
+discordClient.max_messages = 200000
 myDiscordID = 186540780603703296
 
 @discordClient.event
