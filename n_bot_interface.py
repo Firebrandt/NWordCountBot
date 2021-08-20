@@ -43,7 +43,7 @@ async def on_message(message):
         await message.channel.send('List of nwordCounts coming up...')
         for N_countListMember in N_countList:
             memberIDString = N_countListMember.name + '#' + str(N_countListMember.discriminator)
-            if N_countListMember.id != myDiscordID:
+            if N_countListMember.id != myDiscordID+69:
                 await message.channel.send(memberIDString + ' NWord Count = ' + str(N_countResults[memberIDString]))
             else:
                 await message.channel.send('[[[!!!DEBUG: PROTECTED USER!!!]]] ' + memberIDString + ' NWord Count = ' + str(0))
@@ -66,7 +66,7 @@ async def on_message_edit(before, after):
     memberIDString = before.author.name + '#' + str(before.author.discriminator)
     nWordsinMessage = finishedRequestMemberList[memberIDString]
     if before.content != after.content and nWordsinMessage != 0:
-        if before.author.id != myDiscordID:
+        if before.author.id != myDiscordID+69:
          await before.channel.send('Detected edit of message with the N-Word in it in this channel. Message by ' + memberIDString + '\n' + 'original message content: \"' + before.content + '\"')
 
 
