@@ -8,3 +8,5 @@ The bot uses the prefix N_ to recognize commands given to it via chat.
 N_help provides a reference for the commands.
 
 Hosted on heroku free edition. May have some downtime or sleep etc. because of that.
+
+Note that the token is a dummy one and won't work.
